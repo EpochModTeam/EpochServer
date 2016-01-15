@@ -115,7 +115,8 @@ EpochServer.ini Guide
 	* `PlayerAllowOlderThan` Player will be banned if the account creation date is younger than the allowed value (in seconds) [default: 0, 0: disabled]
 
 
-**A3 Epoch Hive Calls**
+Calls Documentation
+---------------------
 
 Full A3 epoch server hive call documentation
 
