@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="external">
+      <UniqueIdentifier>{b0a488f1-198b-4bdb-b104-e7d5eec1e2ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Epochlib">
+      <UniqueIdentifier>{6903016d-b97f-43ca-a586-39b0b92a4db6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Config">
+      <UniqueIdentifier>{42969f54-c1f4-4037-ad63-20b1a3685f11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SteamAPI">
+      <UniqueIdentifier>{83be2dee-d0ff-45c1-9160-f96d7d4969fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Battleye">
+      <UniqueIdentifier>{928697b9-4f88-45f7-a74c-15424f5f0640}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\Epochlib\Epochlib.hpp">
+      <Filter>Epochlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Epochlib\SQF.hpp">
+      <Filter>Epochlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\external\Chameleon.hpp">
+      <Filter>external</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\external\ConfigFile.hpp">
+      <Filter>external</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\external\md5.hpp">
+      <Filter>external</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Epochlib\RedisConnector.hpp">
+      <Filter>Epochlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Epochlib\defines.hpp">
+      <Filter>Epochlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\SteamAPI\SteamAPI.hpp">
+      <Filter>SteamAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\deps\happyhttp\happyhttp.h">
+      <Filter>external</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Epochlib\Logger.hpp">
+      <Filter>Epochlib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\BattlEye\BEClient.hpp">
+      <Filter>Battleye</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\Epochlib\Epochlib.cpp">
+      <Filter>Epochlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Epochlib\SQF.cpp">
+      <Filter>Epochlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\external\Chameleon.cpp">
+      <Filter>external</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\external\ConfigFile.cpp">
+      <Filter>external</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\external\md5.cpp">
+      <Filter>external</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\dllmain.cpp" />
+    <ClCompile Include="..\..\src\main.cpp" />
+    <ClCompile Include="..\..\src\Epochlib\RedisConnector.cpp">
+      <Filter>Epochlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\SteamAPI\SteamAPI.cpp">
+      <Filter>SteamAPI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\deps\happyhttp\happyhttp.cpp">
+      <Filter>external</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Epochlib\Logger.cpp">
+      <Filter>Epochlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\BattlEye\BEClient.cpp">
+      <Filter>Battleye</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\EpochServer.ini">
+      <Filter>Config</Filter>
+    </None>
+  </ItemGroup>
+</Project>
