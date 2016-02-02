@@ -1,12 +1,9 @@
-[submodule "MSOpenTechredis"]
+[submodule "deps/redis"]
 	path = deps/redis
 	url = https://github.com/MSOpenTech/redis.git
-	ignore = dirty
-[submodule "HappyHTTP"]
+[submodule "deps/happyhttp"]
 	path = deps/happyhttp
 	url = https://github.com/peryaudo/HappyHTTP.git
-	ignore = dirty
-[submodule "rapidjson"]
+[submodule "deps/rapidjson"]
 	path = deps/rapidjson
 	url = https://github.com/miloyip/rapidjson.git
-	ignore = dirty
