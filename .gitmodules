@@ -1,12 +1,12 @@
 [submodule "MSOpenTechredis"]
-	path = Assets/EpochServer/deps/redis
+	path = deps/redis
 	url = https://github.com/MSOpenTech/redis.git
 	ignore = dirty
 [submodule "HappyHTTP"]
-	path = Assets/EpochServer/deps/happyhttp
+	path = deps/happyhttp
 	url = https://github.com/peryaudo/HappyHTTP.git
 	ignore = dirty
 [submodule "rapidjson"]
-	path = Assets/EpochServer/deps/rapidjson
+	path = deps/rapidjson
 	url = https://github.com/miloyip/rapidjson.git
 	ignore = dirty
