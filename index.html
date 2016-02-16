@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Epochserver by EpochModTeam</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Epochserver</h1>
+      <h2 class="project-tagline">Epoch Server DB extension (DLL / so) for Arma 3</h2>
+      <a href="https://github.com/EpochModTeam/EpochServer" class="btn">View on GitHub</a>
+      <a href="https://github.com/EpochModTeam/EpochServer/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/EpochModTeam/EpochServer/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="arma3-epochserver" class="anchor" href="#arma3-epochserver" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ArmA3-EpochServer</h1>
+
+<p>ArmA3 Epochmod Server Library
+<a href="http://epochmod.com/">http://epochmod.com/</a></p>
+
+<hr>
+
+<h2>
+<a id="developers" class="anchor" href="#developers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Developers</h2>
+
+<ul>
+<li>Aaron Clark - [VB]AWOL - Game Design,  Code</li>
+<li>Florian Kinder - Fank - DLL Code</li>
+<li>Denis Erygin - devd - Linux DLL Support</li>
+</ul>
+
+<hr>
+
+<h2>
+<a id="install-notes" class="anchor" href="#install-notes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Install Notes</h2>
+
+<p>Hive DLL requires vs2013 redist: <a href="http://www.microsoft.com/en-us/download/details.aspx?id=40784">http://www.microsoft.com/en-us/download/details.aspx?id=40784</a></p>
+
+<hr>
+
+<h2>
+<a id="resources" class="anchor" href="#resources" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Resources</h2>
+
+<ul>
+<li>MSOpenTech - <a href="https://github.com/MSOpenTech/Redis">https://github.com/MSOpenTech/Redis</a>
+</li>
+</ul>
+
+<h2>
+<a id="how-to-build-on-linux" class="anchor" href="#how-to-build-on-linux" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How to build on Linux</h2>
+
+<p>need to install packages: 
+libhiredis-dev
+libpcre3-dev</p>
+
+<h2>
+<a id="how-to-build-dll-visual-studio" class="anchor" href="#how-to-build-dll-visual-studio" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How to build DLL (Visual Studio)</h2>
+
+<ol>
+<li><code>git submodule update --init</code></li>
+<li>Download latest PCRE version from <a href="http://www.airesoft.co.uk/pcre">Airesoft</a> and extract the content in <code>/Assets/EpochServer/deps/pcre-win</code>
+</li>
+<li>Open <code>RedisServer.sln</code> in <code>/Assets/EpochServer/deps/redis/msvs</code>
+</li>
+<li>Compile all Projects with the same config (x32|x64 Debug|Release) as EpochServer</li>
+<li>After the RedisServer dependency is successfully compiled open <code>EpochServer.sln</code> in <code>/Assets/EpochServer/msvs</code>
+</li>
+<li>Compile</li>
+</ol>
+
+<h2>
+<a id="call-summary" class="anchor" href="#call-summary" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Call summary</h2>
+
+<p>Syntax: [Group][Operator][Flag]</p>
+
+<ul>
+<li>0 (Init)
+
+<ul>
+<li>0 
+
+<ul>
+<li>0  (Get and return Instance ID from config)</li>
+<li>1  (STEAMAPI - Vac ban check) </li>
+</ul>
+</li>
+</ul>
+</li>
+<li>1 (Setter)
+
+<ul>
+<li>0 (Temporarily stack, workaround for calls which are too long)
+
+<ul>
+<li>0 (Syncron)</li>
+<li>1 (Asyncron)</li>
+</ul>
+</li>
+<li>1 (Redis call SET)
+
+<ul>
+<li>0 (Syncron)</li>
+<li>1 (Asyncron)</li>
+</ul>
+</li>
+<li>2 (Redis call SETEX)
+
+<ul>
+<li>0 (Syncron)</li>
+<li>1 (Asyncron)</li>
+</ul>
+</li>
+<li>3 (Redis call EXPIRE)
+
+<ul>
+<li>0 (Syncron)</li>
+<li>1 (Asyncron)</li>
+</ul>
+</li>
+<li>4 (Redis call SETBIT)
+
+<ul>
+<li>1 (Asyncron)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>2 (Getter)
+
+<ul>
+<li>0 (Redis call GET)
+
+<ul>
+<li>0 (Syncron)</li>
+</ul>
+</li>
+<li>1 (Redis call GET + TTL)
+
+<ul>
+<li>0 (Syncron)</li>
+</ul>
+</li>
+<li>2 (Redis call GETRANGE)
+
+<ul>
+<li>0 (Syncron)<br>
+</li>
+</ul>
+</li>
+<li>4 (Redis call GETBIT)
+
+<ul>
+<li>0 (Syncron)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>3 (TTL)
+
+<ul>
+<li>0 (Redis call TTL)
+
+<ul>
+<li>0 (Syncron)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>4 (Delete)
+
+<ul>
+<li>0 (Redis call DEL)
+
+<ul>
+<li>0 (Syncron)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>5 (Utilities)
+
+<ul>
+<li>0 (Redis call PING)
+
+<ul>
+<li>0 (Syncron)</li>
+</ul>
+</li>
+<li>1 (Get current time, [YYYY,MM,DD,HH,MM,SS])
+
+<ul>
+<li>0 (Syncron)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>6 (Array)
+
+<ul>
+<li>0 (Redis call LPOP, with <code>CMD</code> prefix)
+
+<ul>
+<li>0 (Syncron)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>7 (Logging)
+
+<ul>
+<li>0 (Log in Redis)
+
+<ul>
+<li>0 (Syncron)</li>
+<li>1 (Asyncron)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>8 (Antihack)
+
+<ul>
+<li>0 (Update publicvariable.txt)
+
+<ul>
+<li>0 (Syncron)</li>
+<li>1 (Asyncron)</li>
+</ul>
+</li>
+<li>1 (Get random string, [a-zA-Z]{23-30}, if only one string is requested it will return a string instead of a array)
+
+<ul>
+<li>0 (Syncron)</li>
+</ul>
+</li>
+<li>2 (Add ban to bans.txt)
+
+<ul>
+<li>0 (Syncron)</li>
+<li>1 (Asyncron)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>9 (Battleye)
+
+<ul>
+<li>0 (Broadcast message to server)
+
+<ul>
+<li>1 (Asyncron)</li>
+</ul>
+</li>
+<li>1 (Kick with message)
+
+<ul>
+<li>1 (Asyncron)</li>
+</ul>
+</li>
+<li>2 (Ban with message and duration)
+
+<ul>
+<li>1 (Asyncron)</li>
+</ul>
+</li>
+<li>3 (Lock/Unlock server)
+
+<ul>
+<li>0 (Unlock)</li>
+<li>1 (Lock)</li>
+</ul>
+</li>
+<li>9 (Shutdown Server)
+
+<ul>
+<li>1 (Asyncron)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<h2>
+<a id="epochserverini-guide" class="anchor" href="#epochserverini-guide" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>EpochServer.ini Guide</h2>
+
+<ul>
+<li>
+<code>[EpochServer]</code>
+
+<ul>
+<li>
+<code>BattlEyePath</code> This is the path to the battleye folder which is needed for the AntiHack [default: "PROFILEPATH/battleye"]</li>
+<li>
+<code>InstanceID</code> Current server instance for the database [default: "NA123"]</li>
+<li>
+<code>LogAbuse</code> Enables abuse logging [default: 0, 0: none, 1: redis key, 2: redis key &amp; value]</li>
+</ul>
+</li>
+<li>
+<code>[Redis]</code>
+
+<ul>
+<li>
+<code>IP</code> Redis server ip/hostname [default: 127.0.0.1]</li>
+<li>
+<code>Port</code> Redis server port 0-65535 [default: 6379]</li>
+<li>
+<code>DB</code> Database index [default: 0]</li>
+<li>
+<code>Password</code> Password [default: <code>&lt;no password&gt;</code>]</li>
+</ul>
+</li>
+<li>
+<code>[SteamAPI]</code>
+
+<ul>
+<li>
+<code>Logging</code> Enable logging for SteamAPI [default: 0, 0: disabled, 1: ban reason, 2: info/debug]</li>
+<li>
+<code>Key</code> Steam Web API key (can be requested here: <a href="http://steamcommunity.com/dev/apikey">http://steamcommunity.com/dev/apikey</a>), if no key is given the SteamAPI is disabled [default: <code>&lt;no key&gt;</code>]</li>
+<li>
+<code>VACBanned</code> Players with a vac ban will be banned by writing the ban in bans.txt [default: 0, 0: disabled, 1: enabled]</li>
+<li>
+<code>VACMinimumNumberOfBans</code> Players with the given minimun of vac bans will be banned, same as VACBanned [default: 0, 0:  disabled]</li>
+<li>
+<code>VACMaximumDaysSinceLastBan</code> Players will be banned until the VAC ban will reach the maximum, same as VACBanned [default: 0, 0: disabled]</li>
+<li>
+<code>PlayerAllowOlderThan</code> Player will be banned if the account creation date is younger than the allowed value (in seconds) [default: 0, 0: disabled]</li>
+</ul>
+</li>
+</ul>
+
+<h2>
+<a id="calls-documentation" class="anchor" href="#calls-documentation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Calls Documentation</h2>
+
+<p>Full A3 epoch server hive call documentation</p>
+
+<p><strong>000</strong></p>
+
+<p>Get and return Instance ID from config</p>
+
+<p><em>Input: None</em></p>
+
+<p><em>Returns: <a href="https://community.bistudio.com/wiki/Array">ARRAY</a> format: ["NA123"]</em></p>
+
+<pre><code>"epochserver" callExtension "000";
+</code></pre>
+
+<p><strong>001</strong></p>
+
+<p>STEAMAPI - Vac ban check</p>
+
+<p><em>Input: <a href="https://community.bistudio.com/wiki/getPlayerUID">SteamID64</a></em></p>
+
+<p><em>Returns: Nothing</em></p>
+
+<pre><code>"epochserver" callExtension format["001|%1", _uid];
+</code></pre>
+
+<p><strong>100</strong></p>
+
+<p>Setter - Temporarily stack, workaround for Arma 8k character limitation. Used in combination with the SET or SETEX calls.</p>
+
+<p><em>Uses:  SET</em></p>
+
+<p><em>Call Type: Synchronous</em></p>
+
+<p><em>Input: <a href="http://redis.io/topics/data-types-intro">Key</a>, Call Index ID, Value</em></p>
+
+<p><em>Returns: Nothing</em></p>
+
+<pre><code>"epochserver" callExtension format["100|%1:%2|%3|%4", 100, _prefix, _key, _hiveCallID, _value];
+</code></pre>
+
+<p><strong>101</strong> </p>
+
+<p>Setter - Temporarily stack, workaround for Arma 8k character limitation. Used in combination with the SET or SETEX calls.</p>
+
+<p><em>Uses:  SET</em></p>
+
+<p><em>Call Type: Asynchronous</em></p>
+
+<p><em>Input: <a href="http://redis.io/topics/data-types-intro">Key</a>, Call Index ID, Value</em></p>
+
+<p><em>Returns: Nothing</em></p>
+
+<pre><code>"epochserver" callExtension format["100|%1:%2|%3|%4", 101, _prefix, _key, _hiveCallID, _value];
+</code></pre>
+
+<p><strong>110</strong> </p>
+
+<p>Store value in database with the specified key</p>
+
+<p><em>Uses:  SET</em></p>
+
+<p><em>Call Type: Synchronous</em></p>
+
+<p><em>Input: <a href="http://redis.io/topics/data-types-intro">Key</a>, Call Index ID, Value</em></p>
+
+<p><em>Returns: Nothing</em></p>
+
+<pre><code>"epochserver" callExtension format["110|%1:%2|%3|%4", _prefix, _key, _hiveCallID, _value];
+</code></pre>
+
+<p><strong>111</strong></p>
+
+<p>Store value in database with the specified key</p>
+
+<p><em>Uses:  SET</em></p>
+
+<p><em>Call Type: Asynchronous</em></p>
+
+<p><em>Input: <a href="http://redis.io/topics/data-types-intro">Key</a>, Call Index ID, Value</em></p>
+
+<p><em>Returns: Nothing</em></p>
+
+<pre><code>"epochserver" callExtension format["111|%1:%2|%3|%4", _prefix, _key, _hiveCallID, _value];
+</code></pre>
+
+<p><strong>120</strong></p>
+
+<p><em>Uses:  SETEX</em></p>
+
+<p><em>Call Type: Asynchronous</em></p>
+
+<p><em>Input: <a href="http://redis.io/topics/data-types-intro">Key</a>, Expires, Call Index ID, Value</em></p>
+
+<p><em>Returns: Nothing</em></p>
+
+<pre><code>"epochserver" callExtension format["120|%1:%2|%3|%4|%5", _prefix, _key, _expires, _hiveCallID, _value];
+</code></pre>
+
+<p><strong>121</strong></p>
+
+<p>Store value in database with the specified key and expiration.</p>
+
+<p><em>Uses:  SETEX</em></p>
+
+<p><em>Call Type: Asynchronous</em></p>
+
+<p><em>Input: <a href="http://redis.io/topics/data-types-intro">Key</a>, Expires, Call Index ID, Value</em></p>
+
+<p><em>Returns: Nothing</em></p>
+
+<pre><code>"epochserver" callExtension format["121|%1:%2|%3|%4|%5", _prefix, _key, _expires, _hiveCallID, _value];
+</code></pre>
+
+<p><strong>130</strong></p>
+
+<p>Set a timeout on key. After the timeout has expired, the key will automatically be deleted.</p>
+
+<p><em>Uses:  <a href="http://redis.io/commands/expire">EXPIRE</a></em></p>
+
+<p><em>Call Type: Synchronous</em></p>
+
+<p><em>Input: <a href="http://redis.io/topics/data-types-intro">Key</a>, Expires</em></p>
+
+<p><em>Returns: Nothing</em></p>
+
+<pre><code>"epochserver" callExtension format ["130|%1:%2|%3", _prefix, _key, _expires];
+</code></pre>
+
+<p><strong>131</strong></p>
+
+<p>Set a timeout on key. After the timeout has expired, the key will automatically be deleted.</p>
+
+<p><em>Uses:  <a href="http://redis.io/commands/expire">EXPIRE</a></em></p>
+
+<p><em>Call Type: Asynchronous</em></p>
+
+<p><em>Input: <a href="http://redis.io/topics/data-types-intro">Key</a>, Expires</em></p>
+
+<p><em>Returns: Nothing</em></p>
+
+<pre><code>"epochserver" callExtension format ["130|%1:%2|%3", _prefix, _key, _expires];
+</code></pre>
+
+<p><strong>140</strong></p>
+
+<p>Sets or clears the bit at offset in the string value stored at key.</p>
+
+<p><em>Uses: <a href="http://redis.io/commands/setbit">SETBIT</a></em></p>
+
+<p><em>Call Type: Synchronous</em></p>
+
+<p><em>Input: <a href="http://redis.io/topics/data-types-intro">Key</a>, Bit Index, Value</em></p>
+
+<p><em>Returns: Nothing</em></p>
+
+<pre><code>"epochserver" callExtension format["140|%1:%2|%3|%4", _prefix, _key, _bitIndex, _value];
+</code></pre>
+
+<p><strong>141</strong></p>
+
+<p>Sets or clears the bit at offset in the string value stored at key.</p>
+
+<p><em>Uses: <a href="http://redis.io/commands/setbit">SETBIT</a></em></p>
+
+<p><em>Call Type: Asynchronous</em></p>
+
+<p><em>Input: <a href="http://redis.io/topics/data-types-intro">Key</a>, Bit Index, Value</em></p>
+
+<p><em>Returns: Nothing</em></p>
+
+<pre><code>"epochserver" callExtension format["141|%1:%2|%3|%4", _prefix, _key, _bitIndex, _value];
+</code></pre>
+
+<p><strong>200</strong></p>
+
+<p><em>Uses: GET</em></p>
+
+<p><em>Call Type: Synchronous</em></p>
+
+<p><em>Input: <a href="http://redis.io/topics/data-types-intro">Key</a>, Bit Index, Value</em></p>
+
+<p>_Returns: _Array</p>
+
+<pre><code>_hiveResponse = "epochserver" callExtension format ["200|%1:%2", _prefix, _key];
+</code></pre>
+
+<p><strong>210</strong></p>
+
+<p><em>Uses: GET, TLL</em></p>
+
+<p><em>Call Type: Synchronous</em></p>
+
+<p><em>Input: <a href="http://redis.io/topics/data-types-intro">Key</a>, Bit Index, Value</em></p>
+
+<p><em>Returns: Array</em></p>
+
+<pre><code>_hiveResponse = "epochserver" callExtension format ["210|%1:%2", _prefix, _key];
+</code></pre>
+
+<p><strong>220</strong></p>
+
+<p><em>Uses: GETRANGE</em></p>
+
+<p><em>Call Type: Synchronous</em></p>
+
+<p><em>Input: <a href="http://redis.io/topics/data-types-intro">Key</a>, Start Index, Stop Index</em></p>
+
+<p><em>Returns: Array</em></p>
+
+<pre><code>_hiveResponse = "epochserver" callExtension format["220|%1:%2|%3|%4", _prefix, _key, _currentIndex, (_currentIndexMax-1)];
+</code></pre>
+
+<p><strong>230</strong></p>
+
+<p><em>Uses: GETBIT</em></p>
+
+<p><em>Call Type: Synchronous</em></p>
+
+<p><em>Input: <a href="http://redis.io/topics/data-types-intro">Key</a>, Bit Index, Value (0-1)</em></p>
+
+<p><em>Returns: BOOL</em></p>
+
+<pre><code>_hiveResponse = "epochserver" callExtension format["240|%1:%2|%3", _prefix, _key, _value];
+</code></pre>
+
+<p><strong>300</strong></p>
+
+<p><em>Uses: <a href="http://redis.io/commands/ttl">TTL</a></em></p>
+
+<p><em>Call Type: Synchronous</em></p>
+
+<p><em>Input: <a href="http://redis.io/topics/data-types-intro">Key</a></em></p>
+
+<p><em>Returns: TTL in seconds</em></p>
+
+<pre><code>"epochserver" callExtension format["300|%1:%2", _prefix, _uniqueID];
+</code></pre>
+
+<p><strong>400</strong></p>
+
+<p>Removes the specified key.</p>
+
+<p><em>Uses: <a href="http://redis.io/commands/del">DEL</a></em></p>
+
+<p><em>Call Type: Synchronous</em></p>
+
+<p><em>Input: <a href="http://redis.io/topics/data-types-intro">Key</a></em></p>
+
+<p><em>Returns: Nothing</em></p>
+
+<pre><code>"epochserver" callExtension format["400|%1:%2", _prefix, _uniqueID];
+</code></pre>
+
+<p><strong>500</strong></p>
+
+<p><em>Uses: <a href="http://redis.io/commands/ping">PING</a></em></p>
+
+<p><em>Call Type: Synchronous</em></p>
+
+<p><em>Input: Nothing</em></p>
+
+<p><em>Returns: "PONG"</em></p>
+
+<pre><code>'epochserver' callExtension '500'
+</code></pre>
+
+<p><strong>501</strong></p>
+
+<p>Get current time.</p>
+
+<p><em>Call Type: Synchronous</em></p>
+
+<p><em>Input: Nothing</em></p>
+
+<p><em>Returns: Array [YYYY,MM,DD,HH,MM,SS]</em></p>
+
+<pre><code>'epochserver' callExtension '510'
+</code></pre>
+
+<p><strong>600</strong></p>
+
+<p>Used to push data from database server in a queue.</p>
+
+<p><em>Uses: <a href="http://redis.io/commands/lpop">LPOP</a> with CMD- prefix</em></p>
+
+<p><em>Call Type: Synchronous</em></p>
+
+<p><em>Input: Server InstanceID</em></p>
+
+<p><em>Returns: Array [1,""]</em></p>
+
+<pre><code>_response = "epochserver" callExtension format["600|%1",_instanceID];
+</code></pre>
+
+<p><strong>700</strong></p>
+
+<p>Log in Redis</p>
+
+<p>_Uses: LPUSH _with -LOG postfix</p>
+
+<p><em>Call Type: Synchronous</em></p>
+
+<p><em>Input: Key Prefix, Message</em></p>
+
+<p><em>Returns: Nothing</em></p>
+
+<pre><code>"epochserver" callExtension format["700|%1|%2", _prefix, _message];
+</code></pre>
+
+<p><strong>701</strong></p>
+
+<p>Log in Redis</p>
+
+<p>_Uses: LPUSH _with -LOG postfix</p>
+
+<p><em>Call Type: Synchronous</em></p>
+
+<p><em>Input: Key Prefix, Message</em></p>
+
+<p><em>Returns: Nothing</em></p>
+
+<pre><code>"epochserver" callExtension format["701|%1|%2", _prefix, _message];
+</code></pre>
+
+<p><strong>800</strong></p>
+
+<p>Append strings specified to end of first line of publicvariable.txt and then runs BE command #loadEvents.</p>
+
+<p><em>Call Type: Synchronous</em></p>
+
+<p><em>Input: Strings</em></p>
+
+<p><em>Returns: Nothing</em></p>
+
+<pre><code>"epochserver" callExtension format["800|%1|%2|%3|%4", _var1, _var2, _var3, _var4];
+</code></pre>
+
+<p><strong>801</strong></p>
+
+<p>Append strings specified to end of first line of publicvariable.txt and then runs BE command #loadEvents.</p>
+
+<p><em>Call Type: Asynchronous</em></p>
+
+<p><em>Input: Strings</em></p>
+
+<p><em>Returns: Nothing</em></p>
+
+<pre><code>"epochserver" callExtension format["800|%1|%2|%3|%4", _var1, _var2, _var3, _var4];
+</code></pre>
+
+<p><strong>810</strong></p>
+
+<p>Get random string, [a-zA-Z]{5-10}, if only one string is requested it will return a string instead of a array</p>
+
+<p><em>Call Type: Synchronous</em></p>
+
+<p><em>Input: Count</em></p>
+
+<p><em>Returns: Array or String</em></p>
+
+<pre><code>_response = 'epochserver' callExtension format['810|%1',_count];
+</code></pre>
+
+<p><strong>820</strong></p>
+
+<p>Add ban to bans.txt and execute #loadBans (Depreciated should use 900 calls)</p>
+
+<p><em>Call Type: Synchronous</em></p>
+
+<p><em>Input: Steam64ID, Reason</em></p>
+
+<p><em>Returns: Nothing</em></p>
+
+<pre><code>'epochserver' callExtension format['820|%1|%2',getPlayerUID _playerObj,_reason];
+</code></pre>
+
+<p><strong>821</strong></p>
+
+<p>Add ban to bans.txt and execute #loadBans (Depreciated should use 900 calls)</p>
+
+<p><em>Call Type: Synchronous</em></p>
+
+<p><em>Input: Steam64ID, Reason</em></p>
+
+<p><em>Returns: Nothing</em></p>
+
+<pre><code>epochserver' callExtension format['821|%1|%2',getPlayerUID _playerObj,_reason];
+</code></pre>
+
+<p><strong>901</strong></p>
+
+<p>Broadcast message to server</p>
+
+<p><em>Call Type: Asynchronous</em></p>
+
+<p><em>Input: Message</em></p>
+
+<p><em>Returns: Nothing</em></p>
+
+<pre><code>'epochserver' callExtension format['901|%1', _message];
+</code></pre>
+
+<p><strong>911</strong></p>
+
+<p>Kick with message</p>
+
+<p><em>Call Type: Asynchronous</em></p>
+
+<p><em>Input: player64ID, Message</em></p>
+
+<p><em>Returns: Nothing</em></p>
+
+<pre><code>'epochserver' callExtension format['911|%1|%2', _playerUID, _reason];
+</code></pre>
+
+<p><strong>921</strong></p>
+
+<p>Ban with message and duration</p>
+
+<p><em>Call Type: Asynchronous</em></p>
+
+<p><em>Input: player64ID, Message, duration</em></p>
+
+<p><em>Returns: Nothing</em></p>
+
+<pre><code>'epochserver' callExtension format['921|%1|%2|%3', _playerUID, _message, _duration];
+</code></pre>
+
+<p><strong>930</strong></p>
+
+<p>Unlock server using BE command #unlock</p>
+
+<p><em>Call Type: Asynchronous</em></p>
+
+<p><em>Input: Nothing</em></p>
+
+<p><em>Returns: Nothing</em></p>
+
+<pre><code>'epochserver' callExtension '930'
+</code></pre>
+
+<p><strong>931</strong></p>
+
+<p>Lock server using BE command #lock</p>
+
+<p><em>Call Type: Asynchronous</em></p>
+
+<p><em>Input: Nothing</em></p>
+
+<p><em>Returns: Nothing</em></p>
+
+<pre><code>'epochserver' callExtension '931'
+</code></pre>
+
+<p><strong>991</strong></p>
+
+<p>Shutdown Server using BE #shutdown command.  </p>
+
+<p><em>Call Type: Asynchronous</em></p>
+
+<p><em>Input: Nothing</em></p>
+
+<p><em>Returns: Nothing</em></p>
+
+<pre><code>'epochserver' callExtension '991'
+</code></pre>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/EpochModTeam/EpochServer">Epochserver</a> is maintained by <a href="https://github.com/EpochModTeam">EpochModTeam</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
