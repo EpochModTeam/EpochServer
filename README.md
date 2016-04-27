@@ -1,15 +1,18 @@
-ArmA3-EpochServer
+**Epoch Server Framework**
 =================
 
-ArmA3 Epochmod Server Library
+Custom Redis http://redis.io/ extension for ArmA 3 
+Windows and Linux compatible (DLL/so)
+
+By Epoch Mod Team
 http://epochmod.com/
 
 --------------------------
 Developers
 --------------------------
-* Aaron Clark - [VB]AWOL - Game Design,  Code
-* Florian Kinder - Fank - DLL Code
-* Denis Erygin - devd - Linux DLL Support
+* Aaron Clark - [VB]AWOL - Code
+* Florian Kinder - Fank - Code
+* Denis Erygin - devd - Code
 
 ---------------------------
 Install Notes
