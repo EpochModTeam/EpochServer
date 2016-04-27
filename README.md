@@ -22,7 +22,11 @@ Hive DLL requires vs2013 redist: http://www.microsoft.com/en-us/download/details
 ---------------------------
 Resources
 ---------------------------
-* MSOpenTech - https://github.com/MSOpenTech/Redis
+* Redis - https://github.com/antirez/redis
+* MSOpenTech (Redis for Windows) - https://github.com/MSOpenTech/Redis
+* HappyHttp - http://scumways.com/happyhttp/happyhttp.html
+* rapidjson - https://github.com/miloyip/rapidjson/
+* pcre-win - http://www.airesoft.co.uk/pcre
 
 
 How to build on Linux
