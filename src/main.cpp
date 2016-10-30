@@ -583,7 +583,7 @@ void RVExtension(char *_output, int _outputSize, const char *_function) {
 		}
 	}
 	else {
-		hiveOutput = "0.5.1.7";
+		hiveOutput = "0.5.1.8";
 	}
 
 	strncpy(_output, hiveOutput.c_str(), _outputSize);

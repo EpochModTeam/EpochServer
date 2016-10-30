@@ -16,8 +16,8 @@ FINAL_CFLAGS=$(STD) $(WARN) -I/usr/include/hiredis -fPIC -m32 $(CFLAGS)
 	g++ $(FINAL_CFLAGS) BattlEye/BEClient.cpp
 	g++ $(FINAL_CFLAGS) ../deps/happyhttp/happyhttp.cpp
 
-	g++ -shared -fPIC -m32 -L. -o epochserver.so *.o -lhiredis -lpcre
+	g++ -shared -fPIC -m32 -L. -o epochserver.so *.o /usr/lib/i386-linux-gnu/libhiredis.a /usr/lib/i386-linux-gnu/libpcrecpp.a
 
 clear:
-	rm *.o -r -f 
+	rm *.o -r -f
 	rm epochserver.so -f

@@ -41,6 +41,7 @@ struct EpochlibConfig {
 	EpochlibConfigSteamAPI steamAPI;
 	std::string instanceId;
 	short int logAbuse;
+	int logLimit;
 };
 
 struct EpochlibRedisExecute {

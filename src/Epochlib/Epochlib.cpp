@@ -5,11 +5,8 @@
 #include <ctime>
 #include <algorithm>
 #include <iomanip>
-
-#ifdef WIN32
-#pragma comment(lib, "pcre3.lib")
-#endif
-
+#define PCRE_STATIC 1
+#include "pcrecpp.h"
 
 Epochlib::Epochlib(std::string _configPath, std::string _profilePath, int _outputSize) {
 	this->initialized = false;
@@ -655,7 +652,8 @@ std::string Epochlib::log(std::string _key, std::string _value) {
 
 	strftime(formatedTime, 64, "%Y-%m-%d %H:%M:%S ", currentTime);
 
-	return this->_redisExecToSQF(this->redis->execute("LPUSH %s-LOG %s%s", _key.c_str(), formatedTime, _value.c_str()), EPOCHLIB_SQF_NOTHING).toArray();
+	this->redis->execute("LPUSH %s-LOG %s%s", _key.c_str(), formatedTime, _value.c_str());
+	return this->_redisExecToSQF(this->redis->execute("LTRIM %s-LOG 0 %d", _key.c_str(), this->config.logLimit), EPOCHLIB_SQF_NOTHING).toArray();
 }
 
 std::string Epochlib::getServerMD5() {
@@ -723,6 +721,7 @@ bool Epochlib::_loadConfig(std::string configFilename) {
 		this->config.battlEyePath   = (std::string)configFile.Value("EpochServer", "BattlEyePath", (this->config.profilePath.length() > 0 ? this->config.profilePath + "/battleye" : ""));
 		this->config.instanceId     = (std::string)configFile.Value("EpochServer", "InstanceID", "NA123");
 		this->config.logAbuse       = (unsigned short int)configFile.Value("EpochServer", "LogAbuse", 0);
+		this->config.logLimit       = (unsigned short int)configFile.Value("EpochServer", "LogLimit", 999);
 		
 		this->config.battlEye.ip    = (std::string)configFile.Value("EpochServer", "IP", "127.0.0.1");
 		this->config.battlEye.port  = (unsigned short int)configFile.Value("EpochServer", "Port", 2302);
