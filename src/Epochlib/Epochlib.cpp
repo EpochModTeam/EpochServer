@@ -724,7 +724,7 @@ bool Epochlib::_loadConfig(std::string configFilename) {
 		this->config.logLimit       = (unsigned short int)configFile.Value("EpochServer", "LogLimit", 999);
 		
 		this->config.battlEye.ip    = (std::string)configFile.Value("EpochServer", "IP", "127.0.0.1");
-		this->config.battlEye.port  = (unsigned short int)configFile.Value("EpochServer", "Port", 2302);
+		this->config.battlEye.port  = (unsigned short int)configFile.Value("EpochServer", "Port", 2306);
 		this->config.battlEye.password = (std::string)configFile.Value("EpochServer", "Password", "");
 		this->config.battlEye.path  = this->config.battlEyePath;
 
