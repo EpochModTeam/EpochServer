@@ -3,5 +3,5 @@
 default: all
 
 .DEFAULT:
-	cd deps/redis-2.8.19 && $(MAKE)
+	cd deps/redis_nix && $(MAKE)
 	cd src && $(MAKE) $@
