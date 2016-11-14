@@ -1,7 +1,7 @@
 **Epoch Server Framework**
 =================
 
-Custom Redis http://redis.io/ extension for ArmA 3 
+Custom Redis http://redis.io/ extension for ArmA 3
 Windows and Linux compatible (DLL/so)
 
 By Epoch Mod Team
@@ -32,10 +32,11 @@ Resources
 How to build on Linux
 --------------------------------
 
-need to install packages: 
-libhiredis-dev
-libpcre3-dev
-
+apt-get install build-essential git libhiredis-dev libpcre3-dev
+git clone https://github.com/EpochModTeam/EpochServer.git\
+git submodule update --init
+cd EpochServer/
+make install
 
 How to build DLL (Visual Studio)
 --------------------------------
@@ -53,9 +54,9 @@ Call summary
 Syntax: [Group][Operator][Flag]
 
 * 0 (Init)
-	* 0 
+	* 0
 		* 0  (Get and return Instance ID from config)
-		* 1  (STEAMAPI - Vac ban check) 
+		* 1  (STEAMAPI - Vac ban check)
 * 1 (Setter)
 	* 0 (Temporarily stack, workaround for calls which are too long)
 		* 0 (Syncron)
