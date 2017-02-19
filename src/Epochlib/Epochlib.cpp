@@ -5,8 +5,7 @@
 #include <ctime>
 #include <algorithm>
 #include <iomanip>
-#define PCRE_STATIC 1
-#include "pcrecpp.h"
+
 
 Epochlib::Epochlib(std::string _configPath, std::string _profilePath, int _outputSize) {
 	this->initialized = false;

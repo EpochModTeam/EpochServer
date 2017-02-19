@@ -13,6 +13,7 @@
 #include <ctime>
 #include <mutex>
 #include <regex>
+#define PCRE_STATIC 1
 #include <pcre.h>
 
 #ifndef __EPOCHLIB_H__
