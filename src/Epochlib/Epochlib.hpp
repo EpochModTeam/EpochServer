@@ -101,7 +101,7 @@ public:
 
 	/* Redis SET / SETEX
 	*/
-	std::string setTemp(std::string Key, std::string Value, std::string Value2);
+	// std::string setTemp(std::string Key, std::string Value, std::string Value2);
 	std::string set(std::string Key, std::string Value, std::string Value2);
 	std::string setex(std::string Key, std::string Value, std::string Value2, std::string Value3);
 	std::string expire(std::string Key, std::string TTL);

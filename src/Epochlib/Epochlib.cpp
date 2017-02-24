@@ -533,14 +533,13 @@ std::string Epochlib::getTtl(std::string _key) {
 	return returnSqf.toArray();
 }
 
+/*
 std::string Epochlib::setTemp(std::string _key, std::string _value, std::string _value2) {
 	
 	// Append to temporarily setter
-	/*
-	this->tempSetMutex.lock();
-	this->tempSet.append(_value);
-	this->tempSetMutex.unlock();
-	*/
+	//this->tempSetMutex.lock();
+	//this->tempSet.append(_value);
+	//this->tempSetMutex.unlock();
 	
 	this->redis->execute("APPEND tmp-%s-%s %s", _value.c_str(), _key.c_str(), _value2.c_str());
 	this->redis->execute("EXPIRE tmp-%s-%s 10", _value.c_str(), _key.c_str());
@@ -549,30 +548,17 @@ std::string Epochlib::setTemp(std::string _key, std::string _value, std::string 
 	sqf.push_number(EPOCHLIB_SQF_RET_SUCESS);
 	return sqf.toArray();
 }
+*/
 
 std::string Epochlib::set(std::string _key, std::string _value, std::string _value2) {
-
-	// Combine temporarily setter & value
-	/*
-	this->tempSetMutex.lock();
-	std::string value = this->tempSet + _value;
-	this->tempSet.clear();
-	this->tempSetMutex.unlock();
-	*/
-
-	EpochlibRedisExecute temp = this->redis->execute("GET tmp-%s-%s", _value.c_str(), _key.c_str());
-	if (temp.message != "") {
-		this->redis->execute("DEL tmp-%s-%s", _value.c_str(), _key.c_str());
-	}
-	std::string value = temp.message + _value2;
-
-	int regexReturnCode = pcre_exec(this->setValueRegex, NULL, value.c_str(), value.length(), 0, 0, NULL, NULL);
+	// _value not used atm	
+	int regexReturnCode = pcre_exec(this->setValueRegex, NULL, _value2.c_str(), _value2.length(), 0, 0, NULL, NULL);
 	if (regexReturnCode == 0) {
-		return this->_redisExecToSQF(this->redis->execute("SET %s %s", _key.c_str(), value.c_str()), EPOCHLIB_SQF_NOTHING).toArray();
+		return this->_redisExecToSQF(this->redis->execute("SET %s %s", _key.c_str(), _value2.c_str()), EPOCHLIB_SQF_NOTHING).toArray();
 	}
 	else {
 		if (this->config.logAbuse > 0) {
-			this->logger->log("[Abuse] SETEX key " + _key + " does not match the allowed syntax!" + (this->config.logAbuse > 1 ? "\n" + value : ""));
+			this->logger->log("[Abuse] SETEX key " + _key + " does not match the allowed syntax!" + (this->config.logAbuse > 1 ? "\n" + _value2 : ""));
 		}
 
 		SQF sqf;
@@ -582,28 +568,14 @@ std::string Epochlib::set(std::string _key, std::string _value, std::string _val
 }
 
 std::string Epochlib::setex(std::string _key, std::string _ttl, std::string _value2, std::string _value3) {
-
-	// Combine temporarily setter & value
-	/*
-	this->tempSetMutex.lock();
-	std::string value = this->tempSet + _value2;
-	this->tempSet.clear();
-	this->tempSetMutex.unlock();
-	*/
-
-	EpochlibRedisExecute temp = this->redis->execute("GET tmp-%s-%s", _value2.c_str(), _key.c_str());
-	if (temp.message != "") {
-		this->redis->execute("DEL tmp-%s-%s", _value2.c_str(), _key.c_str());
-	}
-	std::string value = temp.message + _value3;
-
-	int regexReturnCode = pcre_exec(this->setValueRegex, NULL, value.c_str(), value.length(), 0, 0, NULL, NULL);
+	// _value2 not used atm
+	int regexReturnCode = pcre_exec(this->setValueRegex, NULL, _value3.c_str(), _value3.length(), 0, 0, NULL, NULL);
 	if (regexReturnCode == 0) {
-		return this->_redisExecToSQF(this->redis->execute("SETEX %s %s %s", _key.c_str(), _ttl.c_str(), value.c_str()), EPOCHLIB_SQF_NOTHING).toArray();
+		return this->_redisExecToSQF(this->redis->execute("SETEX %s %s %s", _key.c_str(), _ttl.c_str(), _value3.c_str()), EPOCHLIB_SQF_NOTHING).toArray();
 	}
 	else {
 		if (this->config.logAbuse > 0) {
-			this->logger->log("[Abuse] SETEX key " + _key + " does not match the allowed syntax!" + (this->config.logAbuse > 1 ? "\n" + value : ""));
+			this->logger->log("[Abuse] SETEX key " + _key + " does not match the allowed syntax!" + (this->config.logAbuse > 1 ? "\n" + _value3 : ""));
 		}
 
 		SQF sqf;

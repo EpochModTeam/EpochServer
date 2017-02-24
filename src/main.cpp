@@ -117,6 +117,7 @@ std::string handler001(std::vector<std::string> _param) {
 
 	return "";
 }
+/*
 std::string handler100(std::vector<std::string> _param) {
 	if (_param.size() >= 3) {
 		return EpochLibrary->setTemp(_param[0], _param[1], join(_param, 2));
@@ -132,6 +133,7 @@ std::string handler101(std::vector<std::string> _param) {
 
 	return "";
 }
+*/
 
 std::string handler110(std::vector<std::string> _param) {
 	if (_param.size() >= 3) {
@@ -430,6 +432,7 @@ void RVExtension(char *_output, int _outputSize, const char *_function) {
 			rawCmd.erase(rawCmd.begin(), rawCmd.begin() + 1);
 			hiveOutput = handler001(rawCmd);
 		}
+		/*
 		// SET temp
 		else if (rawCmd[0] == "100") {
 			rawCmd.erase(rawCmd.begin(), rawCmd.begin() + 1);
@@ -439,6 +442,7 @@ void RVExtension(char *_output, int _outputSize, const char *_function) {
 			rawCmd.erase(rawCmd.begin(), rawCmd.begin() + 1);
 			hiveOutput = handler101(rawCmd);
 		}
+		*/
 		// SET
 		else if (rawCmd[0] == "110") {
 			rawCmd.erase(rawCmd.begin(), rawCmd.begin() + 1);
