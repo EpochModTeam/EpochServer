@@ -1,8 +1,8 @@
 #ifdef WIN32
-    #include <winsock2.h>
-    #include <ws2tcpip.h>
-    #pragma comment(lib,"ws2_32.lib") //Winsock Library
-    #include <stdint.h>
+	#include <winsock2.h>
+	#include <ws2tcpip.h>
+	// #pragma comment(lib,"WS2_32.Lib") //Winsock Library
+	#include <stdint.h>
 #elif __linux__
     #include <stdio.h>
     #include <errno.h>

@@ -33,9 +33,13 @@ How to build on Linux
 --------------------------------
 
 apt-get install build-essential git libhiredis-dev libpcre3-dev
+
 git clone https://github.com/EpochModTeam/EpochServer.git\
+
 git submodule update --init
+
 cd EpochServer/
+
 make install
 
 How to build DLL (Visual Studio)
