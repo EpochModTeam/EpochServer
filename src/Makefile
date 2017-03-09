@@ -1,7 +1,7 @@
 STD := -std=c++11 -c
 WARN := -Wall
 
-FINAL_CFLAGS=$(STD) $(WARN) -I/usr/local/include/hiredis $(CFLAGS)
+FINAL_CFLAGS=$(STD) $(WARN) -I/usr/local/include/hiredis -fPIC $(CFLAGS)
 
 .DEFAULT:
 	g++ $(FINAL_CFLAGS) main.cpp
@@ -16,7 +16,7 @@ FINAL_CFLAGS=$(STD) $(WARN) -I/usr/local/include/hiredis $(CFLAGS)
 	g++ $(FINAL_CFLAGS) BattlEye/BEClient.cpp
 	g++ $(FINAL_CFLAGS) ../deps/happyhttp/happyhttp.cpp
 
-	g++ -o epochserver.so -L. *.o /usr/local/hbb/lib/libhiredis.a /hbb/lib/libpcre.a
+	g++ -shared -fPIC -L. -o epochserver.so *.o -static /usr/local/hbb/lib/libhiredis.a /hbb/lib/libpcre.a
 
 clear:
 	rm *.o -r -f
