@@ -8,7 +8,3 @@
 [submodule "deps/rapidjson"]
 	path = deps/rapidjson
 	url = https://github.com/miloyip/rapidjson.git
-[submodule "deps/redis_nix"]
-	path = deps/redis_nix
-	url = https://github.com/antirez/redis.git
-	branch = 2.8
