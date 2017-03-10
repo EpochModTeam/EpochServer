@@ -17,8 +17,8 @@ make && make install
 cd ..
 
 # Install static PCRE
-wget -O /io/pcre-8.40.tar.gz https://downloads.sourceforge.net/project/pcre/pcre/8.40/pcre-8.40.tar.gz
-tar -zxf /io/pcre-8.40.tar.gz
+wget -O pcre-8.40.tar.gz https://downloads.sourceforge.net/project/pcre/pcre/8.40/pcre-8.40.tar.gz
+tar -zxf pcre-8.40.tar.gz
 cd pcre-8.40
 env CFLAGS="$STATICLIB_CFLAGS" CXXFLAGS="$STATICLIB_CXXFLAGS" \
   ./configure --prefix=/hbb_shlib --disable-shared --enable-static
