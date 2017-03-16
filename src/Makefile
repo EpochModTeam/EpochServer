@@ -1,7 +1,7 @@
 STD := -std=c++11 -c
 WARN := -Wall
 
-FINAL_CFLAGS=$(STD) $(WARN) -I/usr/local/include/hiredis -fPIC $(CFLAGS)
+FINAL_CFLAGS=$(STD) $(WARN) -I/usr/local/include/hiredis $(CFLAGS)
 
 .DEFAULT:
 	g++ $(FINAL_CFLAGS) main.cpp
