@@ -17,7 +17,7 @@ FINAL_CFLAGS=$(STD) $(WARN) -I/usr/local/include/hiredis -fPIC $(CFLAGS)
 	g++ $(FINAL_CFLAGS) ../deps/happyhttp/happyhttp.cpp
 
 	#g++ -shared -fPIC -L. -o epochserver.so *.o /usr/local/hbb_shlib/lib/libhiredis.a /hbb_shlib/lib/libpcre.a -static-libstdc++
-	g++ -shared -fPIC -L -o epochserver.so *.o /usr/local/hbb_shlib/lib/libhiredis.so -lpcre
+	g++ -shared -fPIC -L. -o epochserver.so *.o -lhiredis -lpcre
 
 clear:
 	rm *.o -r -f
