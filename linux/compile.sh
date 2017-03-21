@@ -10,16 +10,17 @@ source /hbb_shlib/activate
 yum -y install git wget
 
 # install hiredis
-#unzip hiredis-master.zip
 git clone https://github.com/redis/hiredis.git
 cd hiredis
-make && make install
+make
+make install PREFIX=/hbb_shlib
 cd ..
 
 # Install static PCRE
-wget -O pcre-8.40.tar.gz https://downloads.sourceforge.net/project/pcre/pcre/8.40/pcre-8.40.tar.gz
-tar -zxf pcre-8.40.tar.gz
-cd pcre-8.40
+PCRE_VER=8.40
+wget -O pcre-$PCRE_VER.tar.gz https://downloads.sourceforge.net/project/pcre/pcre/$PCRE_VER/pcre-$PCRE_VER.tar.gz
+tar -zxf pcre-$PCRE_VER.tar.gz
+cd pcre-$PCRE_VER
 env CFLAGS="$STATICLIB_CFLAGS" CXXFLAGS="$STATICLIB_CXXFLAGS" \
   ./configure --prefix=/hbb_shlib --disable-shared --enable-static
 make
@@ -30,9 +31,15 @@ cd ..
 git clone https://github.com/EpochModTeam/EpochServer.git --recursive
 cd EpochServer/
 git submodule update --init --recursive
+
+# overide makefile
+cp /io/Makefile src/
+
+# build epochserver lib
 make install
 
 libcheck src/epochserver.so
-
+ldd src/epochserver.so
+arch
 # Copy result to host
 cp src/epochserver.so /io/
