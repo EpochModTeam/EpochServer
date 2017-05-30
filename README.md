@@ -178,52 +178,6 @@ _Returns: Nothing_
 "epochserver" callExtension format["001|%1", _uid];
 ```
 
-
-**100**
-
-Setter - Temporarily stack, workaround for Arma 8k character limitation. Used in combination with the SET or SETEX calls.
-
-
-
-_Uses:  SET_
-
-_Call Type: Synchronous_
-
-
-
-_Input: [Key](http://redis.io/topics/data-types-intro), Call Index ID, Value_
-
-_Returns: Nothing_
-
-
-
-```
-"epochserver" callExtension format["100|%1:%2|%3|%4", 100, _prefix, _key, _hiveCallID, _value];
-```
-
-
-**101** 
-
-
-Setter - Temporarily stack, workaround for Arma 8k character limitation. Used in combination with the SET or SETEX calls.
-
-
-_Uses:  SET_
-
-_Call Type: Asynchronous_
-
-
-
-_Input: [Key](http://redis.io/topics/data-types-intro), Call Index ID, Value_
-
-_Returns: Nothing_
-
-
-```
-"epochserver" callExtension format["100|%1:%2|%3|%4", 101, _prefix, _key, _hiveCallID, _value];
-```
-
-
 **110** 
 
 Store value in database with the specified key
