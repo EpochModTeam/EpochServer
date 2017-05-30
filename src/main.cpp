@@ -329,6 +329,14 @@ std::string handler830(std::vector<std::string> _param) {
 	return EpochLibrary->increaseBancount();
 }
 
+std::string handler840(std::vector<std::string> _param) {
+	if (_param.size() >= 1) {
+		return EpochLibrary->getStringMd5(_param);
+	}
+
+	return "";
+}
+
 // Battleye Integration
 
 // say  (Message)
@@ -549,6 +557,10 @@ void RVExtension(char *_output, int _outputSize, const char *_function) {
 			rawCmd.erase(rawCmd.begin(), rawCmd.begin() + 1);
 			hiveOutput = handler830(rawCmd);
 		}
+		else if (rawCmd[0] == "840") { // string to md5
+			rawCmd.erase(rawCmd.begin(), rawCmd.begin() + 1);
+			hiveOutput = handler840(rawCmd);
+		}
 		// Battleye Integration
 		else if (rawCmd[0] == "901") { // say  (Message)
 			rawCmd.erase(rawCmd.begin(), rawCmd.begin() + 1);
@@ -587,7 +599,7 @@ void RVExtension(char *_output, int _outputSize, const char *_function) {
 		}
 	}
 	else {
-		hiveOutput = "0.5.1.8";
+		hiveOutput = "0.6.0.0";
 	}
 
 	strncpy(_output, hiveOutput.c_str(), _outputSize);

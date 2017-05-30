@@ -85,6 +85,8 @@ public:
 	/* Increase bancount
 	*/
 	std::string increaseBancount();
+	std::string getStringMd5(std::vector<std::string> StringsToHash);
+	
 
 	/* Get current time
 	*/

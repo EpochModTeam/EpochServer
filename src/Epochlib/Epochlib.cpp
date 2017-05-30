@@ -352,6 +352,17 @@ std::string Epochlib::increaseBancount() {
 	return this->_redisExecToSQF(this->redis->execute("INCR %s", "ahb-cnt"), EPOCHLIB_SQF_STRING).toArray();
 }
 
+std::string Epochlib::getStringMd5(std::vector<std::string> _stringsToHash) {
+	SQF returnSQF;
+	
+	for (std::vector<std::string>::iterator it = _stringsToHash.begin(); it != _stringsToHash.end(); ++it) {
+		MD5 md5 = MD5(*it);
+		returnSQF.push_str(md5.hexdigest().c_str());
+	}
+
+	return returnSQF.toArray();
+}
+
 std::string Epochlib::getCurrentTime() {
 	SQF returnSQF;
 	char buffer[8];
