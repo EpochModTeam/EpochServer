@@ -3,6 +3,12 @@ set -ex
 
 # instructions here: https://github.com/EpochModTeam/EpochServer/wiki/EpochServer-Build-Notes
 
+# fix for centos 5 EOL
+sed -i 's/enabled=1/enabled=0/' /etc/yum/pluginconf.d/fastestmirror.conf
+sed -i 's/mirrorlist/#mirrorlist/' /etc/yum.repos.d/*.repo
+sed -i 's|#baseurl=http://mirror.centos.org/centos/$releasever|baseurl=http://vault.centos.org/5.11|' /etc/yum.repos.d/*.repo
+sed -i 's|#mirrorlist|mirrorlist|' /etc/yum.repos.d/epel.repo
+
 # Activate Holy Build Box environment.
 source /hbb_shlib/activate
 
@@ -40,6 +46,8 @@ make install
 
 libcheck src/epochserver.so
 ldd src/epochserver.so
+ldd --version
 arch
+
 # Copy result to host
 cp src/epochserver.so /io/
