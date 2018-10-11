@@ -520,7 +520,7 @@ _Returns: "PONG"_
 
 
 
-**501**
+**510**
 
 Get current time.
 
