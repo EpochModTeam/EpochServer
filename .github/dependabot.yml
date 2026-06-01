@@ -9,7 +9,8 @@ updates:
       time: "06:00"
     open-pull-requests-limit: 10
     # Dependabot will create PRs that update the commit SHAs for us
-    commit-message-prefix: "ci(deps): "
+    commit-message:
+      prefix: "ci(deps)"
     labels:
       - "dependencies"
       - "github-actions"

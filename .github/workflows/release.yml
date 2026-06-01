@@ -55,7 +55,7 @@ jobs:
           persist-credentials: false
 
       - name: Install Rust toolchain
-        uses: dtolnay/rust-toolchain@be73d7920c329f220ce78e5283aeb85f8e7372b7 # stable as of 2026
+        uses: dtolnay/rust-toolchain@3c5f7ea28cd621ae0bf5283f0e981fb97b8a7af9 # stable (1.94.1) as of 2026-03-27
         with:
           targets: ${{ matrix.target }}
 
