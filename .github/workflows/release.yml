@@ -1,4 +1,4 @@
-﻿name: Release
+name: Release
 
 # Best practice 2026: Trigger on GitHub Release "published" event.
 # This is more secure than pushing tags directly because:
@@ -50,7 +50,7 @@ jobs:
     steps:
       - name: Checkout repository
         # SECURITY: Always pin to a full commit SHA, never a tag like @v4
-        uses: actions/checkout@900f2210b1d28bbbd0bd22d17926b9e224e8f231
+        uses: actions/checkout@1cce3390c2bfda521930d01229c073c7ff920824
         with:
           persist-credentials: false
 
@@ -97,7 +97,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@900f2210b1d28bbbd0bd22d17926b9e224e8f231
+        uses: actions/checkout@1cce3390c2bfda521930d01229c073c7ff920824
         with:
           persist-credentials: false
 
