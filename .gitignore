@@ -1,0 +1,24 @@
+/target/
+
+# Real server config is local. Commit EpochServer.example.ini instead.
+/EpochServer.ini
+
+# Local Arma/manual testing sandboxes.
+/minimal_test_dll/
+/@EpochServerTest/
+/tester_test.bat
+/launch_test.bat
+
+# Built extension artifacts copied to the workspace root.
+/epochserver*.dll
+/epochserver*.pdb
+/epochserver*.lib
+/epochserver*.exp
+
+# Local coverage/profiling output.
+/coverage-*.txt
+/*-coverage.txt
+/*-final.txt
+/config2.txt
+/*.profraw
+/epoch_server_core

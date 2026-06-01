@@ -1,0 +1,21 @@
+version: 2
+updates:
+  # Keep GitHub Actions pinned SHAs reasonably up to date
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+    open-pull-requests-limit: 10
+    # Dependabot will create PRs that update the commit SHAs for us
+    commit-message-prefix: "ci(deps): "
+    labels:
+      - "dependencies"
+      - "github-actions"
+
+  # You can also add Rust/Cargo updates if desired:
+  # - package-ecosystem: "cargo"
+  #   directory: "/"
+  #   schedule:
+  #     interval: "weekly"

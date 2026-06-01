@@ -1,0 +1,115 @@
+﻿name: CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+permissions:
+  contents: read
+
+env:
+  PROJECT_DIR: .
+
+jobs:
+  build:
+    name: Build & Test (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+
+    steps:
+      - uses: actions/checkout@900f2210b1d28bbbd0bd22d17926b9e224e8f231
+        with:
+          persist-credentials: false
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@be73d7920c329f220ce78e5283aeb85f8e7372b7
+        with:
+          targets: ${{ matrix.os == 'windows-latest' && 'x86_64-pc-windows-msvc' || 'x86_64-unknown-linux-gnu' }}
+
+      - name: Build (debug)
+        working-directory: ${{ env.PROJECT_DIR }}
+        run: cargo build
+
+      - name: Run tests
+        working-directory: ${{ env.PROJECT_DIR }}
+        run: |
+          cargo test --release --lib
+          cargo test --release --test live_hive_commands
+          cargo test --release --test external_services
+
+      - name: Check formatting
+        working-directory: ${{ env.PROJECT_DIR }}
+        run: cargo fmt -- --check
+
+      - name: Clippy
+        working-directory: ${{ env.PROJECT_DIR }}
+        run: cargo clippy --release --tests -- -D warnings
+
+  build-release:
+    name: Build Release Binaries
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+
+    steps:
+      - uses: actions/checkout@900f2210b1d28bbbd0bd22d17926b9e224e8f231
+        with:
+          persist-credentials: false
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@be73d7920c329f220ce78e5283aeb85f8e7372b7
+        with:
+          targets: ${{ matrix.target }}
+
+      - name: Build release
+        working-directory: ${{ env.PROJECT_DIR }}
+        run: cargo build --release --target ${{ matrix.target }}
+
+      - name: Remove any non-x64 artifacts (we only ship the x64 variants)
+        working-directory: ${{ env.PROJECT_DIR }}
+        shell: bash
+        run: |
+          # Explicitly delete any non-x64 named artifacts so the release only contains the canonical x64 files
+          rm -f target/${{ matrix.target }}/release/epochserver.dll \
+                target/${{ matrix.target }}/release/epochserver.so \
+                target/${{ matrix.target }}/release/libepochserver.so \
+                target/${{ matrix.target }}/release/epochserver_x86*.dll 2>/dev/null || true
+          echo "Remaining x64-focused release artifacts:"
+          ls -1 target/${{ matrix.target }}/release/*epochserver_x64* 2>/dev/null || echo "(none matching x64 pattern)"
+
+      # Extra safety net for Windows runners (in case bash step is limited)
+      - name: Windows - force remove non-x64 artifacts
+        if: runner.os == 'Windows'
+        working-directory: ${{ env.PROJECT_DIR }}
+        shell: pwsh
+        run: |
+          $dir = "target\${{ matrix.target }}\release"
+          Remove-Item -Force -ErrorAction SilentlyContinue `
+            "$dir\epochserver.dll", `
+            "$dir\epochserver.so", `
+            "$dir\libepochserver.so", `
+            "$dir\epochserver_x86*.dll"
+          Write-Host "Windows cleanup complete. x64 files remaining:"
+          Get-ChildItem "$dir\*epochserver_x64*" -ErrorAction SilentlyContinue | Select-Object Name
+
+      - name: Upload release artifact
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: epochserver-${{ matrix.target }}
+          path: |
+            # We only ship the x64 variants (historical Arma convention)
+            ${{ env.PROJECT_DIR }}/target/${{ matrix.target }}/release/epochserver_x64.dll
+            ${{ env.PROJECT_DIR }}/target/${{ matrix.target }}/release/epochserver_x64.so
+            ${{ env.PROJECT_DIR }}/target/${{ matrix.target }}/release/libepochserver_x64.so
+          retention-days: 7
+          if-no-files-found: warn

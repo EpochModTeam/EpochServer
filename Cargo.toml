@@ -1,0 +1,69 @@
+[package]
+name = "epochserver"
+version = "0.7.0"          # start near old versioning for familiarity
+edition = "2021"
+description = "Modern Rust reimplementation of the EpochServer Arma 3 extension (Redis hive + BattlEye + Steam)"
+license = "APL-SA"         # match original spirit
+repository = "https://github.com/EpochModTeam/EpochServer"
+
+[lib]
+name = "epochserver_x64"
+crate-type = ["cdylib", "rlib"]    # cdylib for Arma, rlib for integration tests/tools
+# We deliberately use the _x64 suffix as the canonical name.
+# This matches historical Arma usage (`callExtension "epochserver_x64"`).
+# We only produce/ship the x64 variants. Non-x64 names are ignored.
+
+[dependencies]
+arma-rs = "1"  # Future hook for structured RVExtensionArgs / modern API (see extension.rs:10 and :1095). Not used in current legacy RVExtension path.
+tokio = { version = "1", features = ["rt-multi-thread", "sync"] }
+
+# Early minimal set for the first working binary
+rand = "0.8"
+chrono = { version = "0.4", default-features = false, features = ["std", "clock"] }
+md-5 = "0.10"   # For 840 getStringMd5 (exact match to original vendored md5.cpp behavior)
+
+# Config (will be used for proper INI loading)
+config = { version = "0.14", features = ["ini"] }
+
+# Redis client (tokio + connection manager for good async behavior)
+redis = { version = "0.27", features = ["tokio-comp", "connection-manager"] }
+
+# For JSON array validation on SET/SETEX (replaces original PCRE check)
+serde_json = "1"
+
+# For Steam Web API calls (001 player checks)
+reqwest = { version = "0.12", features = ["json", "rustls-tls"] }
+serde = { version = "1", features = ["derive"] }
+
+# Only needed if we want to safely encode passwords in Redis URL (optional for now)
+# urlencoding = "2"
+
+# Used by the standalone tester (src/bin/tester.rs)
+libloading = "0.8"
+
+# Will be added as we port subsystems:
+# redis = { version = "0.27", features = ["tokio-comp", "connection-manager"] }
+# reqwest = { version = "0.12", features = ["json", "rustls-tls"] }
+# serde = { version = "1", features = ["derive"] }
+# serde_json = "1"
+# tracing = "0.1"
+# tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt"] }
+# thiserror = "1"
+# md-5 = "0.10"
+
+[dev-dependencies]
+# For integration tests against real Redis
+testcontainers = "0.23"
+testcontainers-modules = { version = "0.11", features = ["redis"] }
+tokio = { version = "1", features = ["rt-multi-thread"] }  # macros not currently used in integration tests
+
+# (libloading moved to regular deps for the tester binary)
+
+[package.metadata.docs.rs]
+default-target = "x86_64-pc-windows-msvc"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+strip = true
+opt-level = 3
