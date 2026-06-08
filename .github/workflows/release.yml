@@ -1,4 +1,4 @@
-﻿name: Release
+name: Release
 
 # Best practice 2026: Trigger on GitHub Release "published" event.
 # This is more secure than pushing tags directly because:
@@ -112,7 +112,7 @@ jobs:
 
       - name: Create GitHub Release and attach binaries
         # SECURITY: Pinned to full commit SHA
-        uses: softprops/action-gh-release@3efcac8951299998593f871640ea8059d6818655
+        uses: softprops/action-gh-release@9ed3cf9a6863b31f005d951c8d19de20628cf4eb
         with:
           # When triggered by release event, use the release that was just published.
           # For manual dispatch, you can pass the tag via inputs.
@@ -131,7 +131,7 @@ jobs:
       # Optional: Attach attestations as release assets if desired
       - name: Upload attestations (if generated)
         if: always()
-        uses: softprops/action-gh-release@3efcac8951299998593f871640ea8059d6818655
+        uses: softprops/action-gh-release@9ed3cf9a6863b31f005d951c8d19de20628cf4eb
         with:
           tag_name: ${{ github.event.release.tag_name || github.event.inputs.tag }}
           files: |
